@@ -17,11 +17,9 @@ const users = [
 ];
 
 const resetBtn = document.getElementById("reset-btn");
-const numberBtn = document.getElementById('numOfplayers');
-const settingBtn = document.getElementById('setting');
 
 let countNum = 0;
-let numOfplayers = 0;
+
 
 init();
 
@@ -85,6 +83,9 @@ resetBtn.addEventListener("click", () => {
 });
 
 
+const numberBtn = document.getElementById('numOfplayers');
+const settingBtn = document.getElementById('setting');
+let numOfplayers = 0;
 let ladder_arr;
 let rows, cols;
 
@@ -139,8 +140,6 @@ function createLadder() {
         }
     }
 
-    console.log(playerNames.length);
-    console.log(numOfplayers);
     if (playerNames.length != numOfplayers || destinations.length != numOfplayers) {
         alert("빈칸이 있다임마");
         return;
@@ -187,8 +186,8 @@ function createLadder() {
 
         for (let k = 0; k < nums.length; k++) {
             ladder_arr[i][2 * nums[k] - 1] = "ㅡㅡㅡ";
-            ladder_arr[i][2 * nums[k] - 1 -1] = "ㅏ";
-            ladder_arr[i][2 * nums[k] - 1 +1] = "ㅓ";
+            ladder_arr[i][2 * nums[k] - 1 - 1] = "ㅏ";
+            ladder_arr[i][2 * nums[k] - 1 + 1] = "ㅓ";
         }
     }
 
@@ -224,62 +223,72 @@ function resetLadder() {
     input_dest.innerHTML = "";
     numberBtn.disabled = false;
     settingBtn.disabled = false;
-    result.innerHTML="";
+    result.innerHTML = "";
     result.style.display = "none";
 }
 
 function resultLadder() {
     let cur_i = 0;
+    let i_col = 0;
     const result = document.getElementById("ladder_result");
     const next_result = document.getElementById("next");
-    next_result.style.display = 'block';
+    next_result.style.display = 'flex';
     result.innerHTML = "";
 
-    let i = 0;
     const runLoop = () => {
-        if (i < cols) {
-            console.log('cols'+ cols);
-            cur_i = i;
+        console.log('cols: ' + cols);
+        if (i_col < cols) {
+            cur_i = i_col;
+            console.log(i_col);
+            console.log(cur_i);
             for (let j = 0; j < rows; j++) {
                 console.log(document.getElementById(`${j},${cur_i}`));
                 document.getElementById(`${j},${cur_i}`).style.color = "red";
                 if (ladder_arr[j][cur_i + 1] == "ㅡㅡㅡ") {
                     document.getElementById(`${j},${cur_i + 1}`).style.color = "red";
                     console.log(document.getElementById(`${j},${cur_i + 1}`));
-                    cur_i++;
+                    cur_i += 1;
                     document.getElementById(`${j},${cur_i + 1}`).style.color = "red";
                     console.log(document.getElementById(`${j},${cur_i + 1}`));
-                    cur_i++;
+                    cur_i += 1;
 
                 }
                 else if (ladder_arr[j][cur_i - 1] == "ㅡㅡㅡ") {
                     console.log(document.getElementById(`${j},${cur_i - 1}`));
                     document.getElementById(`${j},${cur_i - 1}`).style.color = "red";
-                    cur_i--;
+                    cur_i -= 1;
                     document.getElementById(`${j},${cur_i - 1}`).style.color = "red";
                     console.log(document.getElementById(`${j},${cur_i - 1}`));
-                    cur_i--;
+                    cur_i -= 1;
                 }
             }
-
             result.style.display = "flex";
-            result.innerHTML += ladder_arr[0][i] + " => " + ladder_arr[rows - 1][cur_i] + '</br>';
-            i += 2;
-            return true;
-        } else {
-            return false;
+            result.innerHTML += ladder_arr[0][i_col] + " => " + ladder_arr[rows - 1][cur_i] + '</br>';
+            i_col += 2;
+            console.log(" i_col= " + i_col);
         }
+        // else {
+        //     console.log(" i_col= " + i_col);
+        //     alert('더이상 나올 데이터가 없습니다!');
+        //      next_result.style.display = 'none';
+        // }
     }
 
     next_result.addEventListener('click', () => {
+        console.log(" i_col11111= " + i_col);
         const tdElements = document.getElementsByTagName('td');
         for (let j = 0; j < tdElements.length; j++) {
             tdElements[j].style.color = "black";
         }
-        if (!runLoop()) {
-            alert('더이상 나올 데이터가 없습니다!');
-            next_result.style.display='none';
-          }
+        runLoop();
+        // if (i_col > cols) {
+        //     console.log(" i_col= " + i_col);
+        //     alert('더이상 나올 데이터가 없습니다!');
+        //     next_result.style.display = 'none';
+        // }else {
+        //     runLoop();
+        // }
+        
     });
 
     runLoop(); // 버튼을 누르기 전에 첫화면 결과 보여줘야댐
