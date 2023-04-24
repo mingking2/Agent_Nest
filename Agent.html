@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>후원품 이용인 체크리스트</title>
+    <link rel="stylesheet" href="Agent.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1>이용인 체크리스트</h1>
+    </div>
+    <div class="main">
+        <div class="wrap1">
+            <h2>전체 이용인 리스트</h2>
+            <form>
+                <div id="checknum"></div>
+                <div id="checkboxes"></div>
+                <button type="button" id="reset-btn">초기화</button>
+            </form>
+        </div>
+        <div class="wrap2">
+            <h2>사다리타기</h2>
+            <div class="ladder_main">
+                <div class="ladder_header">
+                    <label for="numOfplayers"> Number of Players : </label>
+                    <input type="number" id="numOfplayers" placeholder="인원 수">
+                    <button id="setting" onclick="settingPlayer()">확인</button>
+                </div>
+
+                <div id="input_players"></div>
+                <div id="input_destinations"></div>
+
+                <div id="ladder_btn">
+                    <button id="start" onclick="createLadder()">시작</button>
+                    <button id="reset" onclick="resetLadder()">초기화</button>
+                    <button id="result" onclick="resultLadder()">결과보기</button>
+                    <button id="next">다음</button>
+                </div>
+
+                <div id="ladder"></div>
+                <div id="ladder_result"></div>
+            </div>
+        </div>
+
+
+        <div class="wrap3">
+
+        </div>
+
+    </div>
+
+    <script src="Agent.js"></script>
+</body>
+
+</html>

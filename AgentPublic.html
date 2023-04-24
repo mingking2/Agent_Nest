@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>후원품 이용인 체크리스트</title>
+    <style>
+        body {
+            background-image: url("https://img.sportsworldi.com/content/image/2022/10/29/20221029506167.jpg");
+            color: black;
+        }
+
+        .main {
+            text-align: center;
+            display: flex;
+        }
+
+        .wrap1,
+        .wrap2 {
+            margin: 10px;
+        }
+
+        #checknum {
+            background-color: blanchedalmond;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding: 5px;
+            font-weight: bold;
+            border-bottom: 1px solid black;
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        h1 {
+            margin: 0px;
+            margin-right: 10px;
+            padding: 1px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+        }
+
+        h2 {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            margin-bottom: 0px;
+            border-bottom: 2px solid black;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+
+        .header {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+
+        }
+
+        button {
+            border-radius: 10px;
+            width: 100px;
+            height: 40px;
+            margin-top: 5px;
+        }
+
+
+        li {
+            list-style-type: none;
+            padding: 5px;
+            border-bottom: 1px solid black;
+            background-color: rgba(199, 211, 178, 0.8);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>이용인 체크리스트</h1>
+    </div>
+    <div class="main">
+        <div class="wrap1">
+            <h2>전체 이용인 리스트</h2>
+            <form>
+                <div id="checknum"></div>
+                <div id="checkboxes"></div>
+                <button type="button" id="reset-btn">초기화</button>
+            </form>
+        </div>
+        <div class="wrap2">
+
+        </div>
+        <div class="wrap3">
+
+        </div>
+
+    </div>
+
+    <script>
+        const users = [
+            { name: '김민경', sex: 'female', checked: false },
+            { name: '진영주', sex: 'female', checked: false },
+            { name: '이성민', sex: 'female', checked: false },
+            { name: '안혜주', sex: 'female', checked: false },
+            { name: '이진환', sex: 'male', checked: false },
+            { name: '피재호', sex: 'male', checked: false },
+            { name: '박순필', sex: 'male', checked: false },
+            { name: '안영재', sex: 'male', checked: false },
+            { name: '박세형', sex: 'male', checked: false },
+            { name: '이동우', sex: 'male', checked: false },
+            { name: '김준영', sex: 'male', checked: false },
+            { name: '정만수', sex: 'male', checked: false },
+            { name: '신영진', sex: 'male', checked: false },
+            { name: '김성욱', sex: 'male', checked: false },
+            { name: '전동엽', sex: 'male', checked: false }
+        ];
+
+        const sexboxDiv = document.getElementById("sexboxes");
+        const resetBtn = document.getElementById("reset-btn");
+        let countNum = 0;
+
+
+        init();
+
+        function init() {
+            renderCheckboxes();
+        }
+
+        function renderCheckboxes() {
+            const checkboxDiv = document.getElementById("checkboxes");
+            checkboxDiv.innerHTML = "";
+
+            const checkNum = document.getElementById("checknum");
+            checkNum.innerText = `체크된 인원: ${countNum} 명`;
+
+            users.forEach((user) => {
+                const userElement = document.createElement('li');
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = user.checked;
+                checkbox.addEventListener('click', () => checkNumer(user.name));
+
+                const label = document.createElement('label');
+                label.innerText = user.name;
+
+                userElement.appendChild(checkbox);
+                userElement.appendChild(label);
+                checkboxDiv.appendChild(userElement);
+
+            });
+
+        }
+
+        function checkNumer(name_id) {
+            const user_name = users.find(user_name => user_name.name === name_id);
+            // user_name.name === name_id 인 조건을 찾아 조건에 해당하는 name을 반환한다.
+            if (user_name) {
+                user_name.checked = !user_name.checked;
+                // 체크박스를 눌렀을 때 정보는 false이기 때문에 역으로 만들어줌
+                if (user_name.checked) {
+                    countNum++;
+                } else {
+                    countNum--;
+                }
+            }
+
+            const checkNum = document.getElementById("checknum");
+            checkNum.innerText = `체크된 인원: ${countNum} 명`;
+        }
+
+        resetBtn.addEventListener("click", () => {
+            users.forEach((user) => {
+                user.checked = false;
+            });
+            countNum = 0;
+            const checkNum = document.getElementById("checknum");
+            checkNum.innerText = `체크된 인원: ${countNum} 명`;
+            renderCheckboxes();
+        });
+
+    </script>
+</body>
+
+</html>
