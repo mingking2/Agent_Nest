@@ -91,7 +91,7 @@ let rows, cols;
 
 function settingPlayer() {
     numOfplayers = document.getElementById('numOfplayers').value;
-    if (numOfplayers < 3 || numOfplayers > 10) {
+    if (numOfplayers < 3 || numOfplayers > 100) {
         alert("플레이어의 수가 에바임");
         return;
     }
