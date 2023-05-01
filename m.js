@@ -234,7 +234,6 @@ function resultLadder() {
     const next_result = document.getElementById("next");
     next_result.style.display = 'flex';
     result.innerHTML = "";
-    ck = false;
 
     const runLoop = () => {
         console.log('cols: ' + cols);
@@ -271,24 +270,24 @@ function resultLadder() {
         // else {
         //     console.log(" i_col= " + i_col);
         //     alert('더이상 나올 데이터가 없습니다!');
-        //     next_result.style.display = 'none';
+        //      next_result.style.display = 'none';
         // }
     }
 
-    next_result.addEventListener('click', () => { //여기서 문제가 발생함.
+    next_result.addEventListener('click', () => {
         console.log(" i_col11111= " + i_col);
         const tdElements = document.getElementsByTagName('td');
         for (let j = 0; j < tdElements.length; j++) {
             tdElements[j].style.color = "black";
         }
-        if (i_col > cols) {
-            i_col = 0;
-            console.log(" i_col= " + i_col);
-            alert('더이상 나올 데이터가 없습니다!');
-            next_result.style.display = 'none';
-        }else {
-            runLoop();
-        }
+        runLoop();
+        // if (i_col > cols) {
+        //     console.log(" i_col= " + i_col);
+        //     alert('더이상 나올 데이터가 없습니다!');
+        //     next_result.style.display = 'none';
+        // }else {
+        //     runLoop();
+        // }
         
     });
 
