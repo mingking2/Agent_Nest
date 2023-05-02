@@ -157,7 +157,7 @@ function createLadder() {
                 } else if (i === rows - 1) {
                     ladder_arr[i][j] = destinations[index_dest++];
                 } else {
-                    ladder_arr[i][j] = 'ㅣ';
+                    ladder_arr[i][j] = '│';
                 }
             } else {
                 ladder_arr[i][j] = " ";
@@ -185,9 +185,9 @@ function createLadder() {
         console.log(nums);
 
         for (let k = 0; k < nums.length; k++) {
-            ladder_arr[i][2 * nums[k] - 1] = "ㅡㅡㅡ";
-            ladder_arr[i][2 * nums[k] - 1 - 1] = "ㅏ";
-            ladder_arr[i][2 * nums[k] - 1 + 1] = "ㅓ";
+            ladder_arr[i][2 * nums[k] - 1] = "───";
+            ladder_arr[i][2 * nums[k] - 1 - 1] = "├";
+            ladder_arr[i][2 * nums[k] - 1 + 1] = "┤";
         }
     }
 
@@ -216,6 +216,8 @@ function resetLadder() {
     const input_dest = document.getElementById('input_destinations');
     const numOfplayers = document.getElementById('numOfplayers');
     const result = document.getElementById("ladder_result");
+    const result_btn = document.getElementById('result');
+    result_btn.removeEventListener('click',resultLadder);
 
     numOfplayers.value = "";
     ladder.innerHTML = "";
@@ -223,6 +225,7 @@ function resetLadder() {
     input_dest.innerHTML = "";
     numberBtn.disabled = false;
     settingBtn.disabled = false;
+    result_btn.disabled = false;
     result.innerHTML = "";
     result.style.display = "none";
 }
@@ -230,50 +233,51 @@ function resetLadder() {
 function resultLadder() {
     let cur_i = 0;
     let i_col = 0;
+
     const result = document.getElementById("ladder_result");
     const next_result = document.getElementById("next");
+    const result_btn = document.getElementById('result');
     next_result.style.display = 'flex';
     result.innerHTML = "";
-    ck = false;
+    
 
-    const runLoop = () => {
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+      
+    const runLoop = async () => {
         console.log('cols: ' + cols);
         if (i_col < cols) {
-            cur_i = i_col;
-            console.log(i_col);
-            console.log(cur_i);
-            for (let j = 0; j < rows; j++) {
-                console.log(document.getElementById(`${j},${cur_i}`));
-                document.getElementById(`${j},${cur_i}`).style.color = "red";
-                if (ladder_arr[j][cur_i + 1] == "ㅡㅡㅡ") {
-                    document.getElementById(`${j},${cur_i + 1}`).style.color = "red";
-                    console.log(document.getElementById(`${j},${cur_i + 1}`));
-                    cur_i += 1;
-                    document.getElementById(`${j},${cur_i + 1}`).style.color = "red";
-                    console.log(document.getElementById(`${j},${cur_i + 1}`));
-                    cur_i += 1;
-
-                }
-                else if (ladder_arr[j][cur_i - 1] == "ㅡㅡㅡ") {
-                    console.log(document.getElementById(`${j},${cur_i - 1}`));
-                    document.getElementById(`${j},${cur_i - 1}`).style.color = "red";
-                    cur_i -= 1;
-                    document.getElementById(`${j},${cur_i - 1}`).style.color = "red";
-                    console.log(document.getElementById(`${j},${cur_i - 1}`));
-                    cur_i -= 1;
-                }
+          cur_i = i_col;
+          console.log(i_col);
+          console.log(cur_i);
+          for (let j = 0; j < rows; j++) {
+            console.log(document.getElementById(`${j},${cur_i}`));
+            document.getElementById(`${j},${cur_i}`).style.color = 'red';
+            await sleep(500); // 0.5초 대기
+            if (ladder_arr[j][cur_i + 1] == '───') {
+              document.getElementById(`${j},${cur_i + 1}`).style.color = 'red';
+              console.log(document.getElementById(`${j},${cur_i + 1}`));
+              await sleep(500); // 0.5초 대기
+              cur_i += 1; // 오른쪽으로 이동
+              document.getElementById(`${j},${cur_i+1}`).style.color = 'red';
+              cur_i += 1; // 오른쪽으로 이동
+              console.log(document.getElementById(`${j},${cur_i}`));
+            } else if (ladder_arr[j][cur_i - 1] == '───') {
+              console.log(document.getElementById(`${j},${cur_i - 1}`));
+              document.getElementById(`${j},${cur_i - 1}`).style.color = 'red';
+              await sleep(500); // 0.5초 대기
+              cur_i -= 1; // 왼쪽으로 이동
+              document.getElementById(`${j},${cur_i-1}`).style.color = 'red';
+              cur_i -= 1; // 왼쪽으로 이동
+              console.log(document.getElementById(`${j},${cur_i}`));
             }
-            result.style.display = "flex";
-            result.innerHTML += ladder_arr[0][i_col] + " => " + ladder_arr[rows - 1][cur_i] + '</br>';
-            i_col += 2;
-            console.log(" i_col= " + i_col);
-        }
-        // else {
-        //     console.log(" i_col= " + i_col);
-        //     alert('더이상 나올 데이터가 없습니다!');
-        //     next_result.style.display = 'none';
-        // }
-    }
+          }
+          result.style.display = 'flex';
+          result.innerHTML += ladder_arr[0][i_col] + ' => ' + ladder_arr[rows - 1][cur_i] + '</br>';
+          i_col += 2;
+          console.log(' i_col= ' + i_col);
+        } 
+      };
+      
 
     next_result.addEventListener('click', () => { //여기서 문제가 발생함.
         console.log(" i_col11111= " + i_col);
@@ -286,11 +290,13 @@ function resultLadder() {
             console.log(" i_col= " + i_col);
             alert('더이상 나올 데이터가 없습니다!');
             next_result.style.display = 'none';
-        }else {
+            result_btn.disabled = true;
+            result_btn.removeEventListener('click', resultLadder);
+        } else {
             runLoop();
         }
-        
     });
+
 
     runLoop(); // 버튼을 누르기 전에 첫화면 결과 보여줘야댐
 }
