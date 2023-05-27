@@ -2,10 +2,9 @@ const numberBtn = document.getElementById('numOfplayers');
 const settingBtn = document.getElementById('setting');
 const startBtn = document.getElementById('start');
 
-
+export let ladderData = {};
 let numOfplayers = 0;
 let ladder_arr;
-export let rows, cols;
 
 settingBtn.addEventListener('click', () => settingPlayer())
 startBtn.addEventListener('click', () => createLadder())
@@ -67,8 +66,8 @@ const createLadder = () => {
         return;
     }
 
-    rows = playerNames.length * 2;
-    cols = playerNames.length * 2 - 1;
+    const rows = playerNames.length * 2 + 3;
+    const cols = playerNames.length * 2 - 1;
 
     ladder_arr = Array.from(Array(rows), () => new Array(cols));
     for (let i = 0; i < rows; i++) {
@@ -89,7 +88,7 @@ const createLadder = () => {
 
 
     const random_ladder = Math.floor(cols / 2);
-    for (let i = 1; i < rows - 1; i++) {
+    for (let i = 2; i < rows - 2; i++) {
         let min = 1;
         let max = random_ladder;
         let nums = [];
@@ -104,8 +103,6 @@ const createLadder = () => {
                 break;
             }
         }
-
-        console.log(nums);
 
         for (let k = 0; k < nums.length; k++) {
             ladder_arr[i][2 * nums[k] - 1] = "───";
@@ -131,7 +128,10 @@ const createLadder = () => {
 
     ladder.appendChild(ladder_print);
 
+    ladderData.rows = rows;
+    ladderData.cols = cols;
+    ladderData.ladder_arr = ladder_arr;
 }
 
-
+   
 
