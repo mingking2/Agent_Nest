@@ -25,16 +25,16 @@ const settingPlayer = () => {
     input_player.innerHTML = "";
     input_dest.innerHTML = "";
 
-    Array.from({ length: numOfplayers }, (_,i) => {
+    Array.from({ length: numOfplayers }, (_, i) => {
         const input = document.createElement("input");
         input.setAttribute("type", "text");
-        input.setAttribute("id", `player-${i+1}`);
-        input.setAttribute("placeholder", `player-${i+1}`);
+        input.setAttribute("id", `player-${i + 1}`);
+        input.setAttribute("placeholder", `player-${i + 1}`);
 
         const destInput = document.createElement("input");
         destInput.setAttribute("type", "text");
-        destInput.setAttribute("id", `destination-${i+1}`);
-        destInput.setAttribute("placeholder", `destination-${i+1}`);
+        destInput.setAttribute("id", `destination-${i + 1}`);
+        destInput.setAttribute("placeholder", `destination-${i + 1}`);
 
         input_player.appendChild(input);
         input_dest.appendChild(destInput);
@@ -48,7 +48,8 @@ const createLadder = () => {
     let index_play = 0;
     let index_dest = 0;
 
-    for (let i = 1; i <= numOfplayers; i++) {
+
+    Array.from({ length: numOfplayers }, (_, i) => i + 1).forEach((i) => {
         const inputElement = document.getElementById(`player-${i}`);
         if (inputElement.value) {
             playerNames.push(inputElement.value);
@@ -59,7 +60,8 @@ const createLadder = () => {
             destinations.push(destElement.value);
             destElement.disabled = true;
         }
-    }
+    });
+
 
     if (playerNames.length != numOfplayers || destinations.length != numOfplayers) {
         alert("빈칸이 있다임마");
@@ -70,6 +72,7 @@ const createLadder = () => {
     const cols = playerNames.length * 2 - 1;
 
     ladder_arr = Array.from(Array(rows), () => new Array(cols));
+    
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
             if (j % 2 === 0) {
@@ -133,5 +136,5 @@ const createLadder = () => {
     ladderData.ladder_arr = ladder_arr;
 }
 
-   
+
 

@@ -74,7 +74,7 @@ resetBtn.addEventListener("click", () => {
     countNum = 0;
     const checkNum = document.getElementById("checknum");
     checkNum.innerText = `체크된 인원: ${countNum} 명`;
-    renderCheckboxes();
+    init();
 });
 
 init();
