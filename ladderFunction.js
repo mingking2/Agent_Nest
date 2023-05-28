@@ -26,11 +26,9 @@ const nextLadder = () => {
   const cols = ladderData.cols;
 
   const tdElements = document.getElementsByTagName('td');
-  for (let j = 0; j < tdElements.length; j++) {
+  Array.from({ length: tdElements.length }, (_, j) => {
     tdElements[j].style.color = "black";
-  }
-  
-
+  });
 
   if (i_col > cols) {
     i_col = 0;
